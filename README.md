@@ -11,6 +11,6 @@
 
 3. Configure IP-address, username and password for your RPi in **qtCC\_host.sh**
 
-4. Run `**qtCC\_host.sh** all`
+4. Run `qtCC\_host.sh all`
 
 5. Run `qtCC_rpi.sh link libfix`
