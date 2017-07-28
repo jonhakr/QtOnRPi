@@ -8,7 +8,7 @@
 set -eu
 
 ### Settings
-QT_VER="5.8"	# Make sure this matches the QT_VER specified on the host
+QT_VER="5.9"	# Make sure this matches the QT_VER specified on the host
 INST_DIR="qt${QT_VER}"
 INST_DIR_FULL="/usr/local/${INST_DIR}"
  
