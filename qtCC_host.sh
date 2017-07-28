@@ -41,7 +41,7 @@ fi
 
 ### Qt paths
 QT_VER=5.9			# Select version to download and install
-QT_SUBVER=5.9.0		# Select subversion to download and install
+QT_SUBVER=5.9.1		# Select subversion to download and install
 QT_INSTALL_DIR=${RPIDEV_INSTALL}/qt${QT_VER}
 QT_INSTALL_DIR_HOST=${RPIDEV_INSTALL}/qt${QT_VER}-host
 QT_DEVICE_DIR=/usr/local/qt${QT_VER}
