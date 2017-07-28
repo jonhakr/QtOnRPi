@@ -33,7 +33,7 @@ if [ "$RPIDEV_DEVICE_VERSION" == "pi1" ]; then
 elif [ "$RPIDEV_DEVICE_VERSION" == "pi2" ]; then
 	TARGET_DEVICE="linux-rasp-pi2-g++"
 elif [ "$RPIDEV_DEVICE_VERSION" == "pi3" ]; then
-	TARGET_DEVICE="linux-rpi3-g++"
+	TARGET_DEVICE="linux-rasp-pi3-g++"
 else
 	echo "${BASH_SOURCE[1]}: line ${BASH_LINENO[0]}: ${FUNCNAME[1]}: Unknown device $RPIDEV_DEVICE_VERSION." >&2
 	exit 1
@@ -72,6 +72,7 @@ CONF_OPT+=" -skip qtscript"		# Get error when compiling this package
 #CONF_OPT+=" -skip qtwebkit"	# Large (save time by skipping)
 CONF_OPT+=" -no-pch" # Some users have reported issues with using precomiled headers
 CONF_OPT+=" -no-use-gold-linker" # Seems to have issues with ARMv8
+CONF_OPT+=" -no-pulseaudio -alsa" # Don't use buggy pulseaudio
 
 echo
 echo "===== Creating root directory ====="
@@ -126,7 +127,7 @@ do_down(){
 	echo
 	mkdir -p "${RPIDEV_TAR}"
 	cd "${RPIDEV_TAR}"
-	wget "http://download.qt.io/official_releases/qt/${QT_VER}/${QT_SUBVER}/single/qt-everywhere-opensource-src-${QT_SUBVER}.tar.gz"
+	wget "http://download.qt.io/official_releases/qt/${QT_VER}/${QT_SUBVER}/single/qt-everywhere-opensource-src-${QT_SUBVER}.tar.xz"
 }
 
 do_tar(){
@@ -135,7 +136,7 @@ do_tar(){
 	echo
 	mkdir -p "${RPIDEV_SRC}/qt${QT_VER}"
 	cd "${RPIDEV_TAR}"
-	tar xzf "qt-everywhere-opensource-src-${QT_SUBVER}.tar.gz" --strip=1 -C ${RPIDEV_SRC}/qt${QT_VER} qt-everywhere-opensource-src-${QT_SUBVER}
+	tar xf "qt-everywhere-opensource-src-${QT_SUBVER}.tar.xz" --strip=1 -C ${RPIDEV_SRC}/qt${QT_VER} qt-everywhere-opensource-src-${QT_SUBVER}
 }
 
 do_conf(){
