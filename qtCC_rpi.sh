@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+
+#################################################################################
+# Cross compilation of Qt for the Raspberry Pi, using official source tarball	#
+# - Target script																#
+#################################################################################
+
 set -eu
 
 ### Settings
