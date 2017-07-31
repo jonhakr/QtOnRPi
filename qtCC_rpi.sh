@@ -11,7 +11,11 @@ set -eu
 QT_VER="5.9"	# Make sure this matches the QT_VER specified on the host
 INST_DIR="qt${QT_VER}"
 INST_DIR_FULL="/usr/local/${INST_DIR}"
- 
+SETUP_DIR="${HOME}/.qt"
+SETUP_SCRIPT="setup.sh"
+PHYS_WIDTH=510
+PHYS_HEIGHT=290
+
 
 do_prep(){
 	echo
@@ -56,21 +60,45 @@ do_libfix(){
 	sudo ln -s /opt/vc/lib/libGLESv2.so /opt/vc/lib/libGLESv2.so.2
 }
 
+do_exports(){
+	echo
+	echo "===== Creating setup script for exporting environmenal variables ====="
+	echo "== (Note that if you run this more than once, you'll append its source multiple times in .profile and .bashrc)=="
+	echo
+	echo
+	# Make startup script to export symbols
+	mkdir -p "${SETUP_DIR}"
+	cd "${SETUP_DIR}"
+	> ${SETUP_SCRIPT}
+	echo "export QT_QPA_EGLFS_PHYSICAL_WIDTH=${PHYS_WIDTH}" >> ${SETUP_SCRIPT}
+	echo "export QT_QPA_EGLFS_PHYSICAL_HEIGHT=${PHYS_HEIGHT}" >> ${SETUP_SCRIPT}
+
+	# Make the script executable and run it
+	chmod +x ${SETUP_SCRIPT}
+	./${SETUP_SCRIPT}
+
+	# Append source to setup script in startup scripts
+	echo "source ${SETUP_DIR}/${SETUP_SCRIPT}" >> ~/.profile
+	echo "source ${SETUP_DIR}/${SETUP_SCRIPT}" >> ~/.bashrc
+}
+
 do_all(){
 	do_prep
 	do_dirs
 	do_link
 	do_libfix
+	do_exports
 }
 
 while [ "${1+defined}" ];
 do
 	case $1 in
-		prep* )   do_prep   ;;
-		dirs* )   do_dirs   ;;
-		link* )   do_link   ;;
-		libfix* ) do_libfix ;;
-		all* )    do_all    ;;
+		prep* )   	do_prep   	;;
+		dirs* )   	do_dirs   	;;
+		link* )   	do_link   	;;
+		libfix* ) 	do_libfix 	;;
+		exports* ) 	do_exports 	;;
+		all* )    	do_all    	;;
 		*) echo "UNKNOWN COMMAND: '$1', SKIPPING..."	;;
 	esac
 	shift
