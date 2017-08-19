@@ -13,6 +13,7 @@ DEPS+=" flex"
 DEPS+=" ruby"
 DEPS+=" gperf"
 DEPS+=" bison"
+DEPS+=" sshpass"
 
 # X11/XCB
 DEPS+=" libfontconfig1-dev"
